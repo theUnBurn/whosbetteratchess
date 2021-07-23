@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Who's better at chess?",
+  "name": "Check who's currently better at chess",
   "icons": [
     {
       "src": "favicon.ico",

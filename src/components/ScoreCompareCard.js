@@ -9,7 +9,7 @@ const ScoreCompareCard = (props) => {
   const eloDifference = compareRapidScores(player1, player2);
   const betterPlayer = eloDifference > 0 ? name1 : name2;
   const worsePlayer = eloDifference > 0 ? name2 : name1;
-  let whosBetterString = `Currently, ${betterPlayer} is better than ${worsePlayer} by ${Math.abs(eloDifference)} points`;
+  let whosBetterString = `${betterPlayer} is better than ${worsePlayer} by ${Math.abs(eloDifference)} points`;
   if (eloDifference === 0) whosBetterString = "It's a tie!";
   return (
     <div>

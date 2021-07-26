@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import chessAPI from "api/chesscom";
+import * as chessAPI from "api/chesscom";
 import PlayerCard from "components/PlayerCard";
 import TitleCard from "components/TitleCard";
 import ScoreCompareCard from "components/ScoreCompareCard";
@@ -17,15 +17,14 @@ const VersusScreen = (props) => {
 
     player1Info.push(chessAPI.getPlayer(name1));//.then(({ body }) => setPlayer1({ ...player1, ...body }));
     player1Info.push(chessAPI.getPlayerStats(name1))//.then(({ body }) => setPlayer1({ ...player1, ...body }));
-    const promise1 = Promise.all(player1Info).then(bodies => setPlayer1({ ...bodies[0].body, ...bodies[1].body }))
+    const promise1 = Promise.all(player1Info).then(bodies => setPlayer1({ ...bodies.reduce((body, acc) => ({...acc, ...body}), {})}))
 
     player2Info.push(chessAPI.getPlayer(name2));//.then(({ body }) => setPlayer1({ ...player1, ...body }));
     player2Info.push(chessAPI.getPlayerStats(name2))//.then(({ body }) => setPlayer1({ ...player1, ...body }));
-    const promise2 = Promise.all(player2Info).then(bodies => setPlayer2({ ...bodies[0].body, ...bodies[1].body }))
+    const promise2 = Promise.all(player2Info).then(bodies => setPlayer2({ ...bodies.reduce((body, acc) => ({...acc, ...body}), {})}))
 
     Promise.all([promise1, promise2]).finally(() => setLoading(false));
   }, []);
-  console.log(loading);
 
   return loading ? <></> : (
     <div className="App">

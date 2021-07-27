@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import * as chessAPI from "api/chesscom";
 import PlayerCard from "components/PlayerCard";
 import TitleCard from "components/TitleCard";
+import StatsTable from "components/StatsTable";
 import ScoreCompareCard from "components/ScoreCompareCard";
+
+
 const VersusScreen = (props) => {
 
   const { name1, name2 } = props;
@@ -14,17 +17,23 @@ const VersusScreen = (props) => {
   useEffect(() => {
     const player1Info = [];
     const player2Info = [];
+    const games = [];
 
-    player1Info.push(chessAPI.getPlayer(name1));//.then(({ body }) => setPlayer1({ ...player1, ...body }));
-    player1Info.push(chessAPI.getPlayerStats(name1))//.then(({ body }) => setPlayer1({ ...player1, ...body }));
+    player1Info.push(chessAPI.getPlayer(name1));
+    player1Info.push(chessAPI.getPlayerStats(name1));
     const promise1 = Promise.all(player1Info).then(bodies => setPlayer1({ ...bodies.reduce((body, acc) => ({...acc, ...body}), {})}))
 
-    player2Info.push(chessAPI.getPlayer(name2));//.then(({ body }) => setPlayer1({ ...player1, ...body }));
-    player2Info.push(chessAPI.getPlayerStats(name2))//.then(({ body }) => setPlayer1({ ...player1, ...body }));
-    const promise2 = Promise.all(player2Info).then(bodies => setPlayer2({ ...bodies.reduce((body, acc) => ({...acc, ...body}), {})}))
+    player2Info.push(chessAPI.getPlayer(name2));
+    player2Info.push(chessAPI.getPlayerStats(name2));
+    const promise2 = Promise.all(player2Info).then(bodies => setPlayer2({ ...bodies.reduce((body, acc) => ({...acc, ...body}), {})}));
 
-    Promise.all([promise1, promise2]).finally(() => setLoading(false));
+    games.push(chessAPI.getPlayerGamesForPastNMonths(name1, 1).then(playerGames => setPlayer1(player1 => ({...player1, games: playerGames}))));
+    games.push(chessAPI.getPlayerGamesForPastNMonths(name2, 1).then(playerGames => setPlayer2(player2 => ({...player2, games: playerGames}))));
+    const gamesPromises = Promise.all(games);
+
+    Promise.all([promise1, promise2, gamesPromises]).finally(() => setLoading(false));
   }, []);
+
 
   return loading ? <></> : (
     <div className="App">
@@ -34,6 +43,7 @@ const VersusScreen = (props) => {
           <PlayerCard player={player1} />
           <PlayerCard player={player2} />
         </div>
+        <StatsTable players={[player1, player2]}/>
         <ScoreCompareCard player1={player1} player2={player2} />
       </header>
     </div>

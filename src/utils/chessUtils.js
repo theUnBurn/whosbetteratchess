@@ -18,7 +18,11 @@ export const getGamesForToday = (games) => {
 };
 
 export const gamesWonLossDrawnToday = (currentPlayer, games) => {
-  if(!games) return [];
+  if(!games) return {
+    wins: 0,
+    losses: 0,
+    draws: 0,
+  };
   let wins = 0;
   let losses = 0;
   let draws = 0;

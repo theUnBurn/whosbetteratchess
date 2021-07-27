@@ -23,7 +23,7 @@ const retryOperation = (operation, delay=WAIT_IN_MS, retries=NUMBER_OF_RETRIES) 
 
 const getNMonthAgo = (N) => {
   const newDate = new Date();
-  newDate.setDate(newDate.getMonth() - N);
+  newDate.setMonth(newDate.getMonth() - N);
   return { year: newDate.getFullYear(), month: (newDate.getMonth() % 12) + 1, }
 };
 

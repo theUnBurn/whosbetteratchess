@@ -17,13 +17,13 @@ export const getGamesForToday = (games) => {
   return todayGames;
 };
 
-export const gamesWonLossDrawn = (currentPlayer, games) => {
+export const gamesWonLossDrawnToday = (currentPlayer, games) => {
   if(!games) return [];
   let wins = 0;
   let losses = 0;
   let draws = 0;
   const username = currentPlayer.toLowerCase();
-  for (const game of games) {
+  for (const game of getGamesForToday(games)) {
     const { white, black } = game;
     if(white.result === black.result) {
       draws++;

@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { getGamesForToday, gamesWonLossDrawn } from "utils/chessUtils";
+import { getGamesForToday, gamesWonLossDrawnToday } from "utils/chessUtils";
 
 const dataValues = {
   "Current Rapid ELO": {
@@ -20,8 +20,8 @@ const dataValues = {
   },
   "Wins/Losses/Draws": {
     getValue: (player) => {
-      const results = gamesWonLossDrawn(player.username, player.games);
-      return `${results.wins}/${results.losses}/${results.draws}`;
+      const results = gamesWonLossDrawnToday(player.username, player.games);
+      return `${results.wins} / ${results.losses} / ${results.draws}`;
     },
     comparator: undefined,
   },
@@ -85,7 +85,7 @@ export default function CustomizedTables(props) {
       newData.push(createData(dataKey, values, value.comparator));
     }
     setData(newData);
-  });
+  }, [players]);
 
   const classes = useStyles();
 

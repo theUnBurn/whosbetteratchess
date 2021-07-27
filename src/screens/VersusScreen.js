@@ -27,8 +27,8 @@ const VersusScreen = (props) => {
     player2Info.push(chessAPI.getPlayerStats(name2));
     const promise2 = Promise.all(player2Info).then(bodies => setPlayer2({ ...bodies.reduce((body, acc) => ({...acc, ...body}), {})}));
 
-    games.push(chessAPI.getPlayerGamesForPastNMonths(name1, 1).then(playerGames => setPlayer1(player1 => ({...player1, games: playerGames}))));
-    games.push(chessAPI.getPlayerGamesForPastNMonths(name2, 1).then(playerGames => setPlayer2(player2 => ({...player2, games: playerGames}))));
+    games.push(chessAPI.getPlayerGamesForPastNMonths(name1, 0).then(playerGames => setPlayer1(player1 => ({...player1, games: playerGames}))));
+    games.push(chessAPI.getPlayerGamesForPastNMonths(name2, 0).then(playerGames => setPlayer2(player2 => ({...player2, games: playerGames}))));
     const gamesPromises = Promise.all(games);
 
     Promise.all([promise1, promise2, gamesPromises]).finally(() => setLoading(false));

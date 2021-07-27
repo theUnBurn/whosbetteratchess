@@ -43,8 +43,8 @@ const VersusScreen = (props) => {
           <PlayerCard player={player1} />
           <PlayerCard player={player2} />
         </div>
-        <StatsTable players={[player1, player2]}/>
         <ScoreCompareCard player1={player1} player2={player2} />
+        <StatsTable players={[player1, player2]}/>
       </header>
     </div>
   );

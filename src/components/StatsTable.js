@@ -7,15 +7,19 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { getGamesForToday, gamesWonLossDrawnToday } from "utils/chessUtils";
+import { getGamesForToday, gamesWonLossDrawnToday, eloGainedToday } from "utils/chessUtils";
 
 const dataValues = {
   "Current Rapid ELO": {
     getValue: player => player.chess_rapid.last.rating,
     comparator: Math.max,
   },
-  "Number of games today": {
+  "Number of games": {
     getValue: player => getGamesForToday(player.games).length,
+    comparator: Math.max,
+  },
+  "ELO gained": {
+    getValue: (player) => eloGainedToday(player.username, player.games),
     comparator: Math.max,
   },
   "Wins/Losses/Draws": {
@@ -94,7 +98,7 @@ export default function CustomizedTables(props) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Metric</StyledTableCell>
+            <StyledTableCell>Metric for Today</StyledTableCell>
             {
               headers.map(header => (<StyledTableCell align="center">{header}</StyledTableCell>)) 
             }

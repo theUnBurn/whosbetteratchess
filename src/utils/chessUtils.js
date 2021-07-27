@@ -1,7 +1,23 @@
+
+const TIME_CLASSES = {
+  RAPID: "rapid",
+};
+
 const datesAreOnSameDay = (first, second) =>
     first.getFullYear() === first.getFullYear() &&
     first.getMonth() === first.getMonth() &&
     first.getDate() === second.getDate();
+
+const getGameResultForUser = (username, game) => {
+  const { white , black } = game;
+
+  if(white.username.toLowerCase() === username) {
+    return white;  
+  }
+  else if(black.username.toLowerCase() === username) {
+    return black;
+  };
+};
 
 export const getGamesForToday = (games) => {
   if(!games) return [];
@@ -42,4 +58,16 @@ export const gamesWonLossDrawnToday = (currentPlayer, games) => {
   return {
     wins, losses, draws
   }
+};
+
+export const eloGainedToday = (currentPlayer, games) => {
+  if(!games) return 0;
+  const username = currentPlayer.toLowerCase();
+  const todayGames = getGamesForToday(games).sort((a, b) => a.end_time - b.end_time);
+  const ratedRapidGames = todayGames.filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated);
+
+  if(ratedRapidGames.length === 0) return 0;
+  const firstGame = getGameResultForUser(username, ratedRapidGames[0]);
+  const lastGame = getGameResultForUser(username, ratedRapidGames[ratedRapidGames.length - 1]);
+  return lastGame.rating - firstGame.rating;
 };

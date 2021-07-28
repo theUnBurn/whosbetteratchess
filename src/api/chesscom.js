@@ -7,19 +7,19 @@ const NUMBER_OF_RETRIES = 2;
 
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
-const retryOperation = (operation, delay=WAIT_IN_MS, retries=NUMBER_OF_RETRIES) => new Promise((resolve, reject) => {
-  return operation
-    .then(resolve)
-    .catch((reason) => {
+const retryOperation = (operation, options = {}, retries = NUMBER_OF_RETRIES) => {
+  return operation()
+    .then(res => res)
+    .catch(error => {
+      console.log("error", error, retries);
       if (retries > 0) {
-        return wait(delay)
-          .then(retryOperation.bind(null, operation, delay, retries - 1))
-          .then(resolve)
-          .catch(reject);
+        return wait(WAIT_IN_MS).then(() => retryOperation(operation, options, retries - 1))
+      } else {
+        console.log("final error");
+        return {};
       }
-      return reject(reason);
-    });
-});
+    })
+}
 
 const getNMonthAgo = (N) => {
   const newDate = new Date();
@@ -29,22 +29,21 @@ const getNMonthAgo = (N) => {
 
 export const getPlayer = async (player) => {
   const apiCall = chessdotcom.getPlayer(player).then(({ body }) => body);
-  return retryOperation(apiCall);
+  return retryOperation(() => apiCall);
 };
 
 
 export const getPlayerStats = async (player) => {
   const apiCall = chessdotcom.getPlayerStats(player).then(({ body }) => body);
-  return retryOperation(apiCall);
+  return retryOperation(() => apiCall);
 };
 
 export const getPlayerGamesForMonth = (player, year, month) => { 
   const apiCall = chessdotcom.getPlayerCompleteMonthlyArchives(player, year, month).then(({body}) => {
     return body.games;
   });
-  return retryOperation(apiCall);  
+  return retryOperation(() => apiCall);  
 };
-
 
 export const getPlayerGamesForPastNMonths = (player, N) => { 
   const reqs = [];
@@ -52,5 +51,17 @@ export const getPlayerGamesForPastNMonths = (player, N) => {
     const { month, year } = getNMonthAgo(i);
     reqs.push(getPlayerGamesForMonth(player, year, month ))
   };
-  return retryOperation(Promise.all(reqs)).then(gamesPerMonth => gamesPerMonth.flat());  
+  return Promise.all(reqs).then(gamesPerMonth => gamesPerMonth.flat());  
+};
+
+export const getPlayerInformation = (player, numberOfMonths = 0) => {
+  const reqs = [];
+  reqs.push(getPlayerStats(player));
+  reqs.push(getPlayer(player));
+  reqs.push(getPlayerGamesForPastNMonths(player, numberOfMonths));
+  return Promise.all(reqs).then(values => ({
+    ...values[0],
+    ...values[1],
+    games: values[2]
+  }));
 };

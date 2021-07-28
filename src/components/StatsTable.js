@@ -36,13 +36,14 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: "gray",
     color: theme.palette.common.white,
-    width: "1vw",
-    height: "1vw",
+    fontSize: 13,
   },
   body: {
-    width: "1vw",
-    height: "1vw",
-  
+    fontSize: 11,
+    padding: "0px 0px"
+  },
+  root: {
+    padding: "4px 16px",
   },
 }))(TableCell);
 
@@ -60,7 +61,8 @@ function createData(name, values, comparator=undefined) {
 
 const useStyles = makeStyles({
   table: { },
-  tableContainer: { width:" 95%" },
+  tableRow: { height: 10, },
+  tableContainer: { width:" 99%" },
 });
 
 const renderBestRows = (row) => {
@@ -100,19 +102,19 @@ export default function CustomizedTables(props) {
     <TableContainer className={classes.tableContainer} component={Paper}>
       <Table  className={classes.table} aria-label="customized table">
         <TableHead>
-          <TableRow>
+          <StyledTableRow className={classes.tableRow}>
             <StyledTableCell>Metric for Today</StyledTableCell>
             {
               headers.map(header => (<StyledTableCell align="center">{header}</StyledTableCell>)) 
             }
-          </TableRow>
+          </StyledTableRow>
         </TableHead>
         <TableBody>
           {data.map((row) => (
             <StyledTableRow key={row.name}>
-              <TableCell component="th" scope="row">
+              <StyledTableCell component="th" scope="row">
                 {row.name}
-              </TableCell>
+              </StyledTableCell>
               {renderBestRows(row)}
             </StyledTableRow>
           ))}

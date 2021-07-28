@@ -68,7 +68,7 @@ const renderBestRows = (row) => {
   const bestScore = comparator ? comparator(...values) : undefined; 
   const getColor = (value) => {
     if(comparator) {
-      return value === bestScore ? "green" : "red";
+      return value === bestScore ? "green" : undefined;
     } 
   }
   return values.map((value) => <StyledTableCell align="center" style={{ color: getColor(value)}}>{value}</StyledTableCell>);

@@ -1,4 +1,3 @@
-import isEmpty from "lodash.isempty";
 import { compareRapidScores } from "utils/scoresUtils";
 
 const ScoreCompareCard = (props) => {
@@ -16,7 +15,7 @@ const ScoreCompareCard = (props) => {
   if (eloDifference === 0) whosBetterString = "It's a tie!";
   return (
     <div>
-      <h2> {whosBetterString} </h2>
+      <h4> {whosBetterString} </h4>
     </div>
   );
 };

@@ -11,7 +11,6 @@ const retryOperation = (operation, options = {}, retries = NUMBER_OF_RETRIES) =>
   return operation()
     .then(res => res)
     .catch(error => {
-      console.log("error", error, retries);
       if (retries > 0) {
         return wait(WAIT_IN_MS).then(() => retryOperation(operation, options, retries - 1))
       } else {

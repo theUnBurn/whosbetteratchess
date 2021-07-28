@@ -36,9 +36,13 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: "gray",
     color: theme.palette.common.white,
+    width: "1vw",
+    height: "1vw",
   },
   body: {
-    fontSize: 20,
+    width: "1vw",
+    height: "1vw",
+  
   },
 }))(TableCell);
 
@@ -55,9 +59,8 @@ function createData(name, values, comparator=undefined) {
 }
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 300,
-  },
+  table: { },
+  tableContainer: { width:" 95%" },
 });
 
 const renderBestRows = (row) => {
@@ -94,8 +97,8 @@ export default function CustomizedTables(props) {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
+    <TableContainer className={classes.tableContainer} component={Paper}>
+      <Table  className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Metric for Today</StyledTableCell>

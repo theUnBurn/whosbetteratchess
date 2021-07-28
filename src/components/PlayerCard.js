@@ -5,8 +5,8 @@ const PlayerCard = (props) => {
 
   return !isEmpty(player) ? (
     <div style={{ margin: 10 }}>
-      <img src={player.avatar} width={150} height={150} />
-      <p> {player.name || player.username} </p>
+      <img src={player.avatar} width={50} height={50} />
+      <p style={{fontSize: 20}}> {player.name || player.username} </p>
     </div>
   ) : (<></>)
 };

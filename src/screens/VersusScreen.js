@@ -8,32 +8,40 @@ import ScoreCompareCard from "components/ScoreCompareCard";
 
 const VersusScreen = (props) => {
 
-  const { name1, name2 } = props;
+  const { names } = props;
 
-  const [player1, setPlayer1] = useState({});
-  const [player2, setPlayer2] = useState({});
+  const [players, setPlayers] = useState({});
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const reqs = [];
     setLoading(true);
-    reqs.push(chessAPI.getPlayerInformation(name1).then(setPlayer1));
-    reqs.push(chessAPI.getPlayerInformation(name2).then(setPlayer2));
+
+    for (const name of names) {
+      reqs.push(chessAPI.getPlayerInformation(name).then((data) => setPlayers(players => ({...players, [name]: data}))));
+    };
     
     Promise.all(reqs).then(() => setLoading(false)).catch(console.log);
   }, []);
  
-  console.log(loading, player1?.games?.length, player2?.games?.length);
+  const renderPlayerCards = () => {
+    const cards = [];
+    for (const name of names) {
+      cards.push(<PlayerCard player={players[name]} />)
+    };
+    return cards;
+  };
+
   return loading ? <></> : (
     <div className="App">
       <header className="App-header">
         <TitleCard />
         <div style={styles.playerCard}>
-          <PlayerCard player={player1} />
-          <PlayerCard player={player2} />
+          {renderPlayerCards()}
         </div>
-        <ScoreCompareCard player1={player1} player2={player2} />
-        <StatsTable players={[player1, player2]}/>
+        <ScoreCompareCard player1={players[names[0]]} player2={players[names[1]]} />
+        <StatsTable players={names.map(name => players[name])}/>
       </header>
     </div>
   );

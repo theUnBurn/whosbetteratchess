@@ -51,7 +51,7 @@ export const getGamesForToday = (games) => {
   return todayGames;
 };
 
-export const getLastGameBeforeToday = (games) => {
+const getLastGameBeforeToday = (games) => {
   if (!games) return [];
 
   const beforeGames = [];
@@ -99,6 +99,18 @@ export const gamesWonLossDrawnToday = (currentPlayer, games) => {
   }
 };
 
+export const getMostRecentResult = (currentPlayer, games) => {
+  if (!games) return "Unknown";
+  const username = currentPlayer.toLowerCase();
+
+  const lastGame = games.filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated).sort((a, b) => b.end_time - a.end_time)[0];
+  if (username === "unburn") console.log(lastGame.white, lastGame.black);
+  if (!lastGame) {
+    return "Unknown";
+  };
+  return getColorOfPlayer(username, lastGame) == CHESS_COLORS.WHITE ? lastGame.white.result : lastGame.black.result;
+};
+
 export const eloGainedToday = (currentPlayer, games) => {
   if (!games) return 0;
   const username = currentPlayer.toLowerCase();
@@ -109,7 +121,7 @@ export const eloGainedToday = (currentPlayer, games) => {
   const lastOldGame = getLastGameBeforeToday(games);
 
   if (ratedRapidGames.length === 0) return 0;
-  const firstRating = lastOldGame ? getGameResultForUser(username, lastOldGame).rating : getGameResultForUser(username, ratedRapidGames[0]).rating; //getColorOfPlayer(username, games[0]) === CHESS_COLORS.WHITE ? firstPgn.tags.WhiteELO : firstPgn.tags.BlackELO;
+  const firstRating = lastOldGame ? getGameResultForUser(username, lastOldGame).rating : getGameResultForUser(username, ratedRapidGames[0]).rating;
   const recentGameRating = getGameResultForUser(username, ratedRapidGames[ratedRapidGames.length - 1]).rating;
 
   return recentGameRating - firstRating;

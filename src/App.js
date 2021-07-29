@@ -6,9 +6,9 @@ const players = [
   "anastlemat",
   "danieldiurczak",
   "bdcosta2",
-  "unburn", 
+  "unburn",
   "werdze",
-] 
+];
 
 function App() {
   return (

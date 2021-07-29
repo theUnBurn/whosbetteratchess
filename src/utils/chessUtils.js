@@ -10,8 +10,8 @@ const CHESS_COLORS = {
 
 
 const datesAreOnSameDay = (first, second) =>
-  first.getFullYear() === first.getFullYear() &&
-  first.getMonth() === first.getMonth() &&
+  first.getFullYear() === second.getFullYear() &&
+  first.getMonth() === second.getMonth() &&
   first.getDate() === second.getDate();
 
 

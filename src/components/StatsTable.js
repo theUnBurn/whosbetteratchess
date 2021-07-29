@@ -55,32 +55,32 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, values, comparator=undefined) {
+function createData(name, values, comparator = undefined) {
   return { name, values, comparator };
 }
 
 const useStyles = makeStyles({
-  table: { },
+  table: {},
   tableRow: { height: 10, },
-  tableContainer: { width:" 99%" },
+  tableContainer: { width: " 95%" },
 });
 
 const renderBestRows = (row) => {
   const { values, comparator } = row;
-  const bestScore = comparator ? comparator(...values) : undefined; 
+  const bestScore = comparator ? comparator(...values) : undefined;
   const getColor = (value) => {
-    if(comparator) {
+    if (comparator) {
       return value === bestScore ? "green" : undefined;
-    } 
+    }
   }
-  return values.map((value) => <StyledTableCell align="center" style={{ color: getColor(value)}}>{value}</StyledTableCell>);
+  return values.map((value) => <StyledTableCell align="center" style={{ color: getColor(value) }}>{value}</StyledTableCell>);
 };
 
 export default function CustomizedTables(props) {
   const { players } = props;
 
-  const [ headers, setHeaders ] = useState([]);
-  const [ data, setData ] = useState([]);
+  const [headers, setHeaders] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const newData = [];
@@ -100,12 +100,12 @@ export default function CustomizedTables(props) {
 
   return (
     <TableContainer className={classes.tableContainer} component={Paper}>
-      <Table  className={classes.table} aria-label="customized table">
+      <Table align="center" className={classes.table} aria-label="customized table">
         <TableHead>
           <StyledTableRow className={classes.tableRow}>
             <StyledTableCell>Metric for Today</StyledTableCell>
             {
-              headers.map(header => (<StyledTableCell align="center">{header}</StyledTableCell>)) 
+              headers.map(header => (<StyledTableCell align="center">{header}</StyledTableCell>))
             }
           </StyledTableRow>
         </TableHead>
@@ -121,5 +121,5 @@ export default function CustomizedTables(props) {
         </TableBody>
       </Table>
     </TableContainer>
-     );
+  );
 }

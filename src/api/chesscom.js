@@ -2,8 +2,8 @@ import chessAPI from "chess-web-api";
 
 const chessdotcom = new chessAPI();
 
-const WAIT_IN_MS = 500; 
-const NUMBER_OF_RETRIES = 2; 
+const WAIT_IN_MS = 500;
+const NUMBER_OF_RETRIES = 2;
 
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
@@ -37,23 +37,23 @@ export const getPlayerStats = async (player) => {
   return retryOperation(() => apiCall);
 };
 
-export const getPlayerGamesForMonth = (player, year, month) => { 
-  const apiCall = chessdotcom.getPlayerCompleteMonthlyArchives(player, year, month).then(({body}) => {
+export const getPlayerGamesForMonth = (player, year, month) => {
+  const apiCall = chessdotcom.getPlayerCompleteMonthlyArchives(player, year, month).then(({ body }) => {
     return body.games;
   });
-  return retryOperation(() => apiCall);  
+  return retryOperation(() => apiCall);
 };
 
-export const getPlayerGamesForPastNMonths = (player, N) => { 
+export const getPlayerGamesForPastNMonths = (player, N) => {
   const reqs = [];
   for (let i = 0; i <= N; i++) {
     const { month, year } = getNMonthAgo(i);
-    reqs.push(getPlayerGamesForMonth(player, year, month ))
+    reqs.push(getPlayerGamesForMonth(player, year, month))
   };
-  return Promise.all(reqs).then(gamesPerMonth => gamesPerMonth.flat());  
+  return Promise.all(reqs).then(gamesPerMonth => gamesPerMonth.flat());
 };
 
-export const getPlayerInformation = (player, numberOfMonths = 0) => {
+export const getPlayerInformation = (player, numberOfMonths = 1) => {
   const reqs = [];
   reqs.push(getPlayerStats(player));
   reqs.push(getPlayer(player));

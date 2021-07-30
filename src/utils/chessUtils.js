@@ -1,5 +1,5 @@
 
-const TIME_CLASSES = {
+export const TIME_CLASSES = {
   RAPID: "rapid",
 };
 
@@ -58,7 +58,7 @@ const getLastGameBeforeToday = (games) => {
   const today = new Date();
   for (const game of games) {
     const pgnDate = new Date(game.end_time * 1000);
-    if ((!datesAreOnSameDay(today, pgnDate)) && game.time_class === TIME_CLASSES.RAPID && game.rated) {
+    if ((!datesAreOnSameDay(today, pgnDate))) {
       beforeGames.push(game);
     };
   };
@@ -103,7 +103,7 @@ export const getMostRecentResult = (currentPlayer, games) => {
   if (!games) return "Unknown";
   const username = currentPlayer.toLowerCase();
 
-  const lastGame = games.filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated).sort((a, b) => b.end_time - a.end_time)[0];
+  const lastGame = games[0];
 
   if (!lastGame) {
     return "Unknown";
@@ -115,9 +115,7 @@ export const eloGainedToday = (currentPlayer, games) => {
   if (!games) return 0;
   const username = currentPlayer.toLowerCase();
 
-  const todayGames = getGamesForToday(games).sort((a, b) => a.end_time - b.end_time);
-  const ratedRapidGames = todayGames.filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated);
-
+  const ratedRapidGames = getGamesForToday(games)
   const lastOldGame = getLastGameBeforeToday(games);
 
   if (ratedRapidGames.length === 0) return 0;

@@ -1,4 +1,5 @@
 import chessAPI from "chess-web-api";
+import { TIME_CLASSES } from "utils/chessUtils";
 
 const chessdotcom = new chessAPI();
 
@@ -55,6 +56,6 @@ export const getPlayerInformation = (player, numberOfMonths = 1) => {
   return Promise.all(reqs).then(values => ({
     ...values[0],
     ...values[1],
-    games: values[2]
+    games: values[2].filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated).sort((a, b) => b.end_time - a.end_time),
   })).catch(error => console.log("error", error));
 };

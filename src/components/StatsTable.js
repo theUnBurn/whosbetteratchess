@@ -108,7 +108,7 @@ export default function CustomizedTables(props) {
       <Table align="center" className={classes.table} aria-label="customized table">
         <TableHead>
           <StyledTableRow className={classes.tableRow}>
-            <StyledTableCell>Metric for Today</StyledTableCell>
+            <StyledTableCell>Metrics for Today</StyledTableCell>
             {
               headers.map(header => (<StyledTableCell align="center">{header}</StyledTableCell>))
             }

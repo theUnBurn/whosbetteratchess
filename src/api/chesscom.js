@@ -4,20 +4,14 @@ const chessdotcom = new chessAPI();
 
 const WAIT_IN_MS = 500;
 const NUMBER_OF_RETRIES = 2;
+const HEADERS = {
+  "Content-Type": "application/json",
+}
 
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
 const retryOperation = (operation, options = {}, retries = NUMBER_OF_RETRIES) => {
-  return operation()
-    .then(res => res)
-    .catch(error => {
-      if (retries > 0) {
-        return wait(WAIT_IN_MS).then(() => retryOperation(operation, options, retries - 1))
-      } else {
-        console.log("final error");
-        return {};
-      }
-    })
+  return operation();
 }
 
 const getNMonthAgo = (N) => {
@@ -27,18 +21,18 @@ const getNMonthAgo = (N) => {
 };
 
 export const getPlayer = async (player) => {
-  const apiCall = chessdotcom.getPlayer(player).then(({ body }) => body);
+  const apiCall = chessdotcom.getPlayer(player, undefined, undefined, HEADERS).then(({ body }) => body);
   return retryOperation(() => apiCall);
 };
 
 
 export const getPlayerStats = async (player) => {
-  const apiCall = chessdotcom.getPlayerStats(player).then(({ body }) => body);
+  const apiCall = chessdotcom.getPlayerStats(player, undefined, undefined, HEADERS).then(({ body }) => body);
   return retryOperation(() => apiCall);
 };
 
 export const getPlayerGamesForMonth = (player, year, month) => {
-  const apiCall = chessdotcom.getPlayerCompleteMonthlyArchives(player, year, month).then(({ body }) => {
+  const apiCall = chessdotcom.getPlayerCompleteMonthlyArchives(player, year, month, undefined, undefined, HEADERS).then(({ body }) => {
     return body.games;
   });
   return retryOperation(() => apiCall);
@@ -62,5 +56,5 @@ export const getPlayerInformation = (player, numberOfMonths = 1) => {
     ...values[0],
     ...values[1],
     games: values[2]
-  }));
+  })).catch(error => console.log("error", error));
 };

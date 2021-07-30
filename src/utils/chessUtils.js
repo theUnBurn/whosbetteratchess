@@ -104,7 +104,7 @@ export const getMostRecentResult = (currentPlayer, games) => {
   const username = currentPlayer.toLowerCase();
 
   const lastGame = games.filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated).sort((a, b) => b.end_time - a.end_time)[0];
-  if (username === "unburn") console.log(lastGame.white, lastGame.black);
+
   if (!lastGame) {
     return "Unknown";
   };

@@ -60,6 +60,6 @@ export const getPlayerInformation = (player, numberOfMonths = 1) => {
   return Promise.allSettled(reqs).then(values => ({
     ...values[0].value,
     ...values[1].value,
-    games: values[2].value ? values[2].value.filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated).sort((a, b) => b.end_time - a.end_time) : [],
+    games: values[2].value ? values[2].value.filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated).sort((a, b) => a.end_time - b.end_time) : [],
   })).catch(error => console.log("error", error));
 };

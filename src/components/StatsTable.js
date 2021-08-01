@@ -11,15 +11,15 @@ import { getGamesForToday, gamesWonLossDrawnToday, getMostRecentResult, eloGaine
 
 const dataValues = {
   "Current Rapid ELO": {
-    getValue: player => player.chess_rapid.last.rating,
-    comparator: Math.max,
+    getValue: player => {
+      const eloGained = eloGainedToday(player.username, player.games);
+      const currentRating = player.chess_rapid.last.rating;
+      return `${currentRating} ( ${eloGained >= 0 ? "+" : "-"} ${Math.abs(eloGained)})`
+    },
+    comparator: undefined,
   },
   "Number of games": {
     getValue: player => getGamesForToday(player.games).length,
-    comparator: Math.max,
-  },
-  "ELO gained": {
-    getValue: (player) => eloGainedToday(player.username, player.games),
     comparator: Math.max,
   },
   "Most Recent Game Result": {

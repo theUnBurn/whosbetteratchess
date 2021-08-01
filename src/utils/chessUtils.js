@@ -48,6 +48,7 @@ export const getGamesForToday = (games) => {
       todayGames.push(game);
     };
   };
+  todayGames.sort((a, b) => a.end_time - b.end_time);
   return todayGames;
 };
 

@@ -1,41 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { getGamesForToday, gamesWonLossDrawnToday, getMostRecentResult, eloGainedToday } from "utils/chessUtils";
-
-const dataValues = {
-  "Current Rapid ELO": {
-    getValue: player => {
-      const eloGained = eloGainedToday(player.username, player.games);
-      const currentRating = player.chess_rapid.last.rating;
-      return `${currentRating} ( ${eloGained >= 0 ? "+" : "-"} ${Math.abs(eloGained)})`
-    },
-    comparator: undefined,
-  },
-  "Number of games": {
-    getValue: player => getGamesForToday(player.games).length,
-    comparator: Math.max,
-  },
-  "Most Recent Game Result": {
-    getValue: player => getMostRecentResult(player.username, player.games),
-    comparator: undefined,
-  },
-
-  "Wins/Losses/Draws": {
-    getValue: (player) => {
-      const results = gamesWonLossDrawnToday(player.username, player.games);
-      return `${results.wins} / ${results.losses} / ${results.draws}`;
-    },
-    comparator: undefined,
-  },
-};
-
+import React, { useEffect, useState } from "react";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import {
+  getGamesForToday,
+  gamesWonLossDrawnToday,
+  getMostRecentResult,
+  eloGainedToday,
+} from "utils/chessUtils";
+import { render } from "@testing-library/react";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -45,7 +23,7 @@ const StyledTableCell = withStyles((theme) => ({
   },
   body: {
     fontSize: 11,
-    padding: "0px 0px"
+    padding: "0px 0px",
   },
   root: {
     padding: "4px 16px",
@@ -54,31 +32,110 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    '&:nth-of-type(odd)': {
+    "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
     },
   },
 }))(TableRow);
 
-function createData(name, values, comparator = undefined) {
-  return { name, values, comparator };
+function createData(name, players, render = undefined) {
+  return { name, players, render };
 }
 
 const useStyles = makeStyles({
   table: {},
-  tableRow: { height: 10, },
+  tableRow: { height: 10 },
   tableContainer: { width: " 95%" },
 });
 
+const dataValues = {
+  "Current Rapid ELO": {
+    value: (player) => eloGainedToday(player.username, player.games),
+    renderCell: (player, allPlayers) => {
+      const currentElo = player.chess_rapid.last.rating;
+      const eloGained = eloGainedToday(player.username, player.games);
+      const isPositive = eloGained >= 0;
+
+      const eloGainedString = ` ( ${isPositive ? "+" : "-"}${Math.abs(
+        eloGained
+      )})`;
+
+      return (
+        <StyledTableCell align="center">
+          {currentElo}
+          <div
+            style={{ color: isPositive ? "green" : "red", display: "inline" }}
+          >
+            {eloGainedString}
+          </div>
+        </StyledTableCell>
+      );
+    },
+  },
+  "Number of games": {
+    value: (player) => getGamesForToday(player.games).length,
+    renderCell: (player, players) => {
+      const numberOfGames = getGamesForToday(player.games).length;
+      const bestNumberOfGames = Math.max(
+        ...players.map((player) => getGamesForToday(player.games).length)
+      );
+      const isBest = numberOfGames === bestNumberOfGames;
+      return (
+        <StyledTableCell align="center">
+          <div
+            style={{ color: isBest ? "green" : undefined, display: "inline" }}
+          >
+            {numberOfGames}
+          </div>
+        </StyledTableCell>
+      );
+    },
+  },
+  "Most Recent Game Result": {
+    value: (player) => getMostRecentResult(player.username, player.games),
+    renderCell: (player, players) => {
+      const mostRecentResult = getMostRecentResult(
+        player.username,
+        player.games
+      );
+
+      const isWin = mostRecentResult === "win";
+      return (
+        <StyledTableCell align="center">
+          <div style={{ color: isWin ? "green" : "red", display: "inline" }}>
+            {mostRecentResult}
+          </div>
+        </StyledTableCell>
+      );
+    },
+  },
+  "Wins/Losses/Draws": {
+    renderCell: (player, players) => {
+      const results = gamesWonLossDrawnToday(player.username, player.games);
+
+      return (
+        <StyledTableCell align="center">
+          <div style={{ color: "green", display: "inline" }}>
+            {results.wins}
+          </div>
+          <div style={{ display: "inline" }}>{" / "}</div>
+          <div style={{ color: "red", display: "inline" }}>
+            {`${results.losses}`}
+          </div>
+          <div style={{ display: "inline" }}>{" / "}</div>
+          <div style={{ display: "inline" }}>{results.draws}</div>
+        </StyledTableCell>
+      );
+      return `${results.wins} / ${results.losses} / ${results.draws}`;
+    },
+    comparator: undefined,
+  },
+};
+
 const renderBestRows = (row) => {
-  const { values, comparator } = row;
-  const bestScore = comparator ? comparator(...values) : undefined;
-  const getColor = (value) => {
-    if (comparator) {
-      return value === bestScore ? "green" : undefined;
-    }
-  }
-  return values.map((value) => <StyledTableCell align="center" style={{ color: getColor(value) }}>{value}</StyledTableCell>);
+  const { players, render } = row;
+
+  return players.map((player) => render(player, players));
 };
 
 export default function CustomizedTables(props) {
@@ -90,13 +147,18 @@ export default function CustomizedTables(props) {
   useEffect(() => {
     const newData = [];
 
-    const newHeaders = players.reduce((playerValues, player) => [...playerValues, player.name || player.username], []);
+    const newHeaders = players.reduce(
+      (playerValues, player) => [
+        ...playerValues,
+        player.name || player.username,
+      ],
+      []
+    );
     setHeaders(newHeaders);
 
     for (const dataKey of Object.keys(dataValues)) {
       const value = dataValues[dataKey];
-      const values = players.reduce((playerValues, player) => [...playerValues, value.getValue(player)], []);
-      newData.push(createData(dataKey, values, value.comparator));
+      newData.push(createData(dataKey, players, value.renderCell));
     }
     setData(newData);
   }, [players]);
@@ -105,13 +167,17 @@ export default function CustomizedTables(props) {
 
   return (
     <TableContainer className={classes.tableContainer} component={Paper}>
-      <Table align="center" className={classes.table} aria-label="customized table">
+      <Table
+        align="center"
+        className={classes.table}
+        aria-label="customized table"
+      >
         <TableHead>
           <StyledTableRow className={classes.tableRow}>
             <StyledTableCell>Metrics for Today</StyledTableCell>
-            {
-              headers.map(header => (<StyledTableCell align="center">{header}</StyledTableCell>))
-            }
+            {headers.map((header) => (
+              <StyledTableCell align="center">{header}</StyledTableCell>
+            ))}
           </StyledTableRow>
         </TableHead>
         <TableBody>

@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/whosbetteratchess/static/css/main.f1058f21.chunk.css",
+    "main.css": "/whosbetteratchess/static/css/main.6a5b161b.chunk.css",
     "main.js": "/whosbetteratchess/static/js/main.2b877be9.chunk.js",
     "main.js.map": "/whosbetteratchess/static/js/main.2b877be9.chunk.js.map",
     "runtime-main.js": "/whosbetteratchess/static/js/runtime-main.26933bce.js",
@@ -10,13 +10,13 @@
     "static/js/3.826c5c42.chunk.js": "/whosbetteratchess/static/js/3.826c5c42.chunk.js",
     "static/js/3.826c5c42.chunk.js.map": "/whosbetteratchess/static/js/3.826c5c42.chunk.js.map",
     "index.html": "/whosbetteratchess/index.html",
-    "static/css/main.f1058f21.chunk.css.map": "/whosbetteratchess/static/css/main.f1058f21.chunk.css.map",
+    "static/css/main.6a5b161b.chunk.css.map": "/whosbetteratchess/static/css/main.6a5b161b.chunk.css.map",
     "static/js/2.c65df6aa.chunk.js.LICENSE.txt": "/whosbetteratchess/static/js/2.c65df6aa.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.26933bce.js",
     "static/js/2.c65df6aa.chunk.js",
-    "static/css/main.f1058f21.chunk.css",
+    "static/css/main.6a5b161b.chunk.css",
     "static/js/main.2b877be9.chunk.js"
   ]
 }

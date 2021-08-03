@@ -13,7 +13,6 @@ import {
   getMostRecentResult,
   eloGainedToday,
 } from "utils/chessUtils";
-import { render } from "@testing-library/react";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -23,10 +22,9 @@ const StyledTableCell = withStyles((theme) => ({
   },
   body: {
     fontSize: 11,
-    padding: "0px 0px",
   },
   root: {
-    padding: "4px 16px",
+    padding: "0px 16px",
   },
 }))(TableCell);
 
@@ -45,7 +43,7 @@ function createData(name, players, render = undefined) {
 const useStyles = makeStyles({
   table: {},
   tableRow: { height: 10 },
-  tableContainer: { width: " 95%" },
+  tableContainer: {},
 });
 
 const dataValues = {
@@ -166,31 +164,33 @@ export default function CustomizedTables(props) {
   const classes = useStyles();
 
   return (
-    <TableContainer className={classes.tableContainer} component={Paper}>
-      <Table
-        align="center"
-        className={classes.table}
-        aria-label="customized table"
-      >
-        <TableHead>
-          <StyledTableRow className={classes.tableRow}>
-            <StyledTableCell>Metrics for Today</StyledTableCell>
-            {headers.map((header) => (
-              <StyledTableCell align="center">{header}</StyledTableCell>
-            ))}
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              {renderBestRows(row)}
+    <div>
+      <TableContainer className={classes.tableContainer} component={Paper}>
+        <Table
+          align="center"
+          className={classes.table}
+          aria-label="customized table"
+        >
+          <TableHead>
+            <StyledTableRow className={classes.tableRow}>
+              <StyledTableCell>Metrics for Today</StyledTableCell>
+              {headers.map((header) => (
+                <StyledTableCell align="center">{header}</StyledTableCell>
+              ))}
             </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {data.map((row) => (
+              <StyledTableRow key={row.name}>
+                <StyledTableCell component="th" scope="row">
+                  {row.name}
+                </StyledTableCell>
+                {renderBestRows(row)}
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }

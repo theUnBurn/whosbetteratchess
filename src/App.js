@@ -1,6 +1,8 @@
-import logo from 'chesscomlogo.png';
-import './App.css';
+import logo from "chesscomlogo.png";
+import "./App.css";
+import "./index.css";
 import VersusScreen from "screens/VersusScreen";
+import { isMobile } from "react-device-detect";
 
 const players = [
   "anastlemat",
@@ -13,10 +15,10 @@ const players = [
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} width="200" />
+      <img src={logo} width="200" />
+      <div className={`screen`}>
         <VersusScreen names={players} />
-      </header>
+      </div>
     </div>
   );
 }

@@ -140,7 +140,6 @@ export const getMostRecentResult = (currentPlayer) => {
   const username = currentUsername.toLowerCase();
 
   const lastGame = games[0];
-
   if (!lastGame) {
     return UNKNOWN;
   };

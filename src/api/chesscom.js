@@ -11,20 +11,20 @@ const getNMonthAgo = (N) => {
 };
 
 export const getPlayer = async (player) => {
-  const apiCall = () => chessdotcom.getPlayer(player, {}, undefined).then(({ body }) => body);
+  const apiCall = (retry, number) => chessdotcom.getPlayer(player, {}, undefined).then(({ body }) => body).catch(retry);
   return promiseRetry(apiCall);
 };
 
 
 export const getPlayerStats = async (player) => {
-  const apiCall = () => chessdotcom.getPlayerStats(player, {}, undefined).then(({ body }) => body);
+  const apiCall = (retry, number) => chessdotcom.getPlayerStats(player, {}, undefined).then(({ body }) => body).catch(retry);
   return promiseRetry(apiCall);
 };
 
 export const getPlayerGamesForMonth = (player, year, month) => {
-  const apiCall = () => chessdotcom.getPlayerCompleteMonthlyArchives(player, year, month, {}, undefined).then(({ body }) => {
+  const apiCall = (retry, number) => chessdotcom.getPlayerCompleteMonthlyArchives(player, year, month, {}, undefined).then(({ body }) => {
     return body.games;
-  });
+  }).catch(retry);
   return promiseRetry(apiCall, { retries: 10 });
 };
 
@@ -60,7 +60,7 @@ export const getPlayerInformation = (player) => {
     return {
       ...values[0].value,
       ...values[1].value,
-      games: values[2].value ? values[2].value.filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated).sort((a, b) => a.end_time - b.end_time) : [],
+      games: values[2].value ? values[2].value.filter(game => game.time_class === TIME_CLASSES.RAPID && game.rated).sort((a, b) => b.end_time - a.end_time) : [],
     }
   }).catch(error => console.log("error", error));
 };

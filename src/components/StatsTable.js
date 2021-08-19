@@ -74,7 +74,7 @@ const dataValues = {
       );
     },
   },
-  "Number of games": {
+  "# of Games": {
     value: (player) => getGamesForToday(player.games).length,
     renderCell: (player, players) => {
       const numberOfGames = getGamesForToday(player.games).length;
@@ -93,22 +93,32 @@ const dataValues = {
       );
     },
   },
-  "Most Recent Game Result": {
+  "Most Recent Result": {
     value: (player) => getMostRecentResult(player),
     renderCell: (player, players) => {
       const mostRecentResult = getMostRecentResult(player);
+      const drawConditions = ["insufficient", "unknown"];
+      let resultColor;
 
+      if (mostRecentResult === "win") {
+        resultColor = "green";
+      }
+      else if (drawConditions.includes(mostRecentResult)) {
+        resultColor = undefined;
+      } else {
+        resultColor = "red";
+      }
       const isWin = mostRecentResult === "win";
       return (
         <StyledTableCell align="center">
-          <div style={{ color: isWin ? "green" : "red", display: "inline" }}>
+          <div style={{ color: resultColor, display: "inline" }}>
             {mostRecentResult}
           </div>
         </StyledTableCell>
       );
     },
   },
-  "Time In Games": {
+  "Time Spent": {
     value: (player) => getTimeInChessGamesToday(player),
     renderCell: (player, players) => {
       const value = getTimeInChessGamesToday(player);

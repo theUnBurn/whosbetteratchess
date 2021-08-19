@@ -134,14 +134,15 @@ export const getTimeInChessGamesToday = (currentPlayer) => {
 };
 
 export const getMostRecentResult = (currentPlayer) => {
-  const { username: currentUsername, games } = currentPlayer
-  if (!games) return "Unknown";
+  const { username: currentUsername, games } = currentPlayer;
+  const UNKNOWN = "unknown";
+  if (!games) return UNKNOWN;
   const username = currentUsername.toLowerCase();
 
   const lastGame = games[0];
 
   if (!lastGame) {
-    return "Unknown";
+    return UNKNOWN;
   };
   return getColorOfPlayer(username, lastGame) == CHESS_COLORS.WHITE ? lastGame.white.result : lastGame.black.result;
 };

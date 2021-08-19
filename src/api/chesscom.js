@@ -4,12 +4,6 @@ import { TIME_CLASSES } from "utils/chessUtils";
 
 const chessdotcom = new chessAPI();
 
-const WAIT_IN_MS = 500;
-const NUMBER_OF_RETRIES = 2;
-const HEADERS = {
-  "Content-Type": "application/json",
-}
-
 const getNMonthAgo = (N) => {
   const newDate = new Date();
   newDate.setMonth(newDate.getMonth() - N);

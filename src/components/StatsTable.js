@@ -48,10 +48,10 @@ const useStyles = makeStyles({
 
 const dataValues = {
   "Current Rapid ELO": {
-    value: (player) => eloGainedToday(player.username, player.games),
+    value: (player) => eloGainedToday(player),
     renderCell: (player, allPlayers) => {
       const currentElo = player.chess_rapid.last.rating;
-      const eloGained = eloGainedToday(player.username, player.games);
+      const eloGained = eloGainedToday(player);
       const isPositive = eloGained >= 0;
 
       const eloGainedString = ` ( ${isPositive ? "+" : "-"}${Math.abs(
@@ -90,12 +90,9 @@ const dataValues = {
     },
   },
   "Most Recent Game Result": {
-    value: (player) => getMostRecentResult(player.username, player.games),
+    value: (player) => getMostRecentResult(player),
     renderCell: (player, players) => {
-      const mostRecentResult = getMostRecentResult(
-        player.username,
-        player.games
-      );
+      const mostRecentResult = getMostRecentResult(player);
 
       const isWin = mostRecentResult === "win";
       return (
@@ -109,7 +106,7 @@ const dataValues = {
   },
   "Wins/Losses/Draws": {
     renderCell: (player, players) => {
-      const results = gamesWonLossDrawnToday(player.username, player.games);
+      const results = gamesWonLossDrawnToday(player);
 
       return (
         <StyledTableCell align="center">
@@ -124,7 +121,6 @@ const dataValues = {
           <div style={{ display: "inline" }}>{results.draws}</div>
         </StyledTableCell>
       );
-      return `${results.wins} / ${results.losses} / ${results.draws}`;
     },
     comparator: undefined,
   },

@@ -72,7 +72,8 @@ const getLastGameBeforeToday = (games) => {
   return beforeGames[beforeGames.length - 1];
 };
 
-export const gamesWonLossDrawnToday = (currentPlayer, games) => {
+export const gamesWonLossDrawnToday = (currentPlayer) => {
+  const { username: currentUsername, games } = currentPlayer;
   if (!games) return {
     wins: 0,
     losses: 0,
@@ -81,7 +82,7 @@ export const gamesWonLossDrawnToday = (currentPlayer, games) => {
   let wins = 0;
   let losses = 0;
   let draws = 0;
-  const username = currentPlayer.toLowerCase();
+  const username = currentUsername.toLowerCase();
   for (const game of getGamesForToday(games)) {
     const { white, black } = game;
     if (white.result === black.result) {
@@ -99,9 +100,10 @@ export const gamesWonLossDrawnToday = (currentPlayer, games) => {
   }
 };
 
-export const getMostRecentResult = (currentPlayer, games) => {
+export const getMostRecentResult = (currentPlayer) => {
+  const { username: currentUsername, games } = currentPlayer
   if (!games) return "Unknown";
-  const username = currentPlayer.toLowerCase();
+  const username = currentUsername.toLowerCase();
 
   const lastGame = games[0];
 
@@ -111,9 +113,10 @@ export const getMostRecentResult = (currentPlayer, games) => {
   return getColorOfPlayer(username, lastGame) == CHESS_COLORS.WHITE ? lastGame.white.result : lastGame.black.result;
 };
 
-export const eloGainedToday = (currentPlayer, games) => {
+export const eloGainedToday = (currentPlayer) => {
+  const { username: currentUsername, games } = currentPlayer;
   if (!games) return 0;
-  const username = currentPlayer.toLowerCase();
+  const username = currentUsername.toLowerCase();
 
   const ratedRapidGames = getGamesForToday(games)
   const lastOldGame = getLastGameBeforeToday(games);

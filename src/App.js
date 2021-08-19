@@ -2,7 +2,6 @@ import logo from "chesscomlogo.png";
 import "./App.css";
 import "./index.css";
 import VersusScreen from "screens/VersusScreen";
-import { isMobile } from "react-device-detect";
 
 const players = [
   "anastlemat",
@@ -10,6 +9,7 @@ const players = [
   "bdcosta2",
   "unburn",
   "werdze",
+  "hebber",
 ];
 
 function App() {

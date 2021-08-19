@@ -17,7 +17,7 @@ import {
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: "gray",
+    backgroundColor: "#6c9c40",
     color: theme.palette.common.white,
     fontSize: 13,
   },
@@ -33,6 +33,9 @@ const StyledTableRow = withStyles((theme) => ({
   root: {
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
+    },
+    "&:nth-of-type(even)": {
+      backgroundColor: "#6c9c4050",
     },
   },
 }))(TableRow);
@@ -192,7 +195,7 @@ export default function CustomizedTables(props) {
           </TableHead>
           <TableBody>
             {data.map((row) => (
-              <StyledTableRow key={row.name}>
+              <StyledTableRow key={row.name} className={classes.tableRow}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>

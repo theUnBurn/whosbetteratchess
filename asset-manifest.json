@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/whosbetteratchess/static/css/main.6a5b161b.chunk.css",
-    "main.js": "/whosbetteratchess/static/js/main.fe7d4b44.chunk.js",
-    "main.js.map": "/whosbetteratchess/static/js/main.fe7d4b44.chunk.js.map",
+    "main.js": "/whosbetteratchess/static/js/main.7225b807.chunk.js",
+    "main.js.map": "/whosbetteratchess/static/js/main.7225b807.chunk.js.map",
     "runtime-main.js": "/whosbetteratchess/static/js/runtime-main.31ae5eba.js",
     "runtime-main.js.map": "/whosbetteratchess/static/js/runtime-main.31ae5eba.js.map",
-    "static/js/2.20397085.chunk.js": "/whosbetteratchess/static/js/2.20397085.chunk.js",
-    "static/js/2.20397085.chunk.js.map": "/whosbetteratchess/static/js/2.20397085.chunk.js.map",
+    "static/js/2.29424672.chunk.js": "/whosbetteratchess/static/js/2.29424672.chunk.js",
+    "static/js/2.29424672.chunk.js.map": "/whosbetteratchess/static/js/2.29424672.chunk.js.map",
     "static/js/3.8dae2c8a.chunk.js": "/whosbetteratchess/static/js/3.8dae2c8a.chunk.js",
     "static/js/3.8dae2c8a.chunk.js.map": "/whosbetteratchess/static/js/3.8dae2c8a.chunk.js.map",
     "index.html": "/whosbetteratchess/index.html",
     "static/css/main.6a5b161b.chunk.css.map": "/whosbetteratchess/static/css/main.6a5b161b.chunk.css.map",
-    "static/js/2.20397085.chunk.js.LICENSE.txt": "/whosbetteratchess/static/js/2.20397085.chunk.js.LICENSE.txt"
+    "static/js/2.29424672.chunk.js.LICENSE.txt": "/whosbetteratchess/static/js/2.29424672.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.31ae5eba.js",
-    "static/js/2.20397085.chunk.js",
+    "static/js/2.29424672.chunk.js",
     "static/css/main.6a5b161b.chunk.css",
-    "static/js/main.fe7d4b44.chunk.js"
+    "static/js/main.7225b807.chunk.js"
   ]
 }

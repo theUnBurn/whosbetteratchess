@@ -11,6 +11,7 @@ import {
   getGamesForToday,
   gamesWonLossDrawnToday,
   getMostRecentResult,
+  getTimeInChessGamesToday,
   eloGainedToday,
 } from "utils/chessUtils";
 
@@ -99,6 +100,20 @@ const dataValues = {
         <StyledTableCell align="center">
           <div style={{ color: isWin ? "green" : "red", display: "inline" }}>
             {mostRecentResult}
+          </div>
+        </StyledTableCell>
+      );
+    },
+  },
+  "Time In Games": {
+    value: (player) => getTimeInChessGamesToday(player),
+    renderCell: (player, players) => {
+      const value = getTimeInChessGamesToday(player);
+
+      return (
+        <StyledTableCell align="center">
+          <div style={{ color: "black", display: "inline" }}>
+            {value}
           </div>
         </StyledTableCell>
       );

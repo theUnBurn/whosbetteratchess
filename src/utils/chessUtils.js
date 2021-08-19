@@ -1,3 +1,14 @@
+function secondsToHms(d) {
+  d = Number(d);
+  var h = Math.floor(d / 3600);
+  var m = Math.floor(d % 3600 / 60);
+  var s = Math.floor(d % 3600 % 60);
+
+  var hDisplay = h < 10 ? `0${h}` : `${h}`;
+  var mDisplay = m < 10 ? `0${m}` : `${m}`;
+  var sDisplay = s < 10 ? `0${s}` : `${s}`;
+  return `${hDisplay}:${mDisplay}:${sDisplay}`;
+}
 
 export const TIME_CLASSES = {
   RAPID: "rapid",
@@ -98,6 +109,28 @@ export const gamesWonLossDrawnToday = (currentPlayer) => {
   return {
     wins, losses, draws
   }
+};
+
+export const getTimeInChessGamesToday = (currentPlayer) => {
+  const { games } = currentPlayer;
+
+  const METADATA_REGEX = /(?<=\[)(Start|End)Time.+?(?=\])/g;
+  let totalTime = 0;
+  for (const game of getGamesForToday(games)) {
+    const pgn = game.pgn;
+    let startTime = 0;
+    let endTime = 0;
+    for (const time of [...pgn.matchAll(METADATA_REGEX)]) {
+      const timestamp = time[0].split(" ")[1].replaceAll("\"", "");
+      if (time[1] === "Start") {
+        startTime = Date.parse(`01 Jan 1970 ${timestamp} UTC`)
+      } else {
+        endTime = Date.parse(`01 Jan 1970 ${timestamp} UTC`)
+      }
+    };
+    totalTime += (endTime - startTime);
+  };
+  return secondsToHms(totalTime / 1000);
 };
 
 export const getMostRecentResult = (currentPlayer) => {

@@ -62,10 +62,10 @@ const getResultofGameForPlayer = (game, username) => {
   if (white.result === black.result) {
     streak = GAME_RESULTS.DRAW;
   }
-  else if (white.username.toLowerCase() === username && white.result === "win") {
+  else if ((white.username.toLowerCase() === username && white.result === "win") || (black.username.toLowerCase() === username && black.result === "win")) {
     streak = GAME_RESULTS.WIN;
   }
-  else if (black.username.toLowerCase() === username && white.result === "win") {
+  else {
     streak = GAME_RESULTS.LOSS;
   };
   return streak;

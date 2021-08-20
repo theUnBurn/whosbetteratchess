@@ -97,7 +97,7 @@ const dataValues = {
     value: (player) => getMostRecentResult(player),
     renderCell: (player, players) => {
       const mostRecentResult = getMostRecentResult(player);
-      const drawConditions = ["insufficient", "stalemate", "unknown"];
+      const drawConditions = ["insufficient", "stalemate", "unknown", "repetition",];
       let resultColor;
 
       if (mostRecentResult === "win") {

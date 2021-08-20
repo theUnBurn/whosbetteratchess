@@ -19,6 +19,7 @@ const CHESS_COLORS = {
   BLACK: "black",
 }
 
+const MS_IN_A_DAY = 86400000;
 
 const datesAreOnSameDay = (first, second) =>
   first.getFullYear() === second.getFullYear() &&
@@ -128,6 +129,11 @@ export const getTimeInChessGamesToday = (currentPlayer) => {
         endTime = Date.parse(`01 Jan 1970 ${timestamp} UTC`)
       }
     };
+
+    if (startTime > endTime) {
+      endTime = endTime + MS_IN_A_DAY;
+    };
+
     totalTime += (endTime - startTime);
   };
   return secondsToHms(totalTime / 1000);

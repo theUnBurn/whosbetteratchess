@@ -95,6 +95,20 @@ const dataValues = {
       );
     },
   },
+  "Time Spent": {
+    value: (player) => getTimeInChessGamesToday(player),
+    renderCell: (player, players) => {
+      const value = getTimeInChessGamesToday(player);
+
+      return (
+        <StyledTableCell align="center">
+          <div style={{ color: "black", display: "inline" }}>
+            {value}
+          </div>
+        </StyledTableCell>
+      );
+    },
+  },
   "Most Recent Result": {
     value: (player) => getMostRecentResult(player),
     renderCell: (player, players) => {
@@ -115,20 +129,6 @@ const dataValues = {
         <StyledTableCell align="center">
           <div style={{ color: resultColor, display: "inline" }}>
             {mostRecentResult}
-          </div>
-        </StyledTableCell>
-      );
-    },
-  },
-  "Time Spent": {
-    value: (player) => getTimeInChessGamesToday(player),
-    renderCell: (player, players) => {
-      const value = getTimeInChessGamesToday(player);
-
-      return (
-        <StyledTableCell align="center">
-          <div style={{ color: "black", display: "inline" }}>
-            {value}
           </div>
         </StyledTableCell>
       );

@@ -19,6 +19,12 @@ const CHESS_COLORS = {
   BLACK: "black",
 }
 
+export const GAME_RESULTS = {
+  DRAW: "draw",
+  WIN: "win",
+  LOSS: "loss",
+}
+
 const MS_IN_A_DAY = 86400000;
 
 const datesAreOnSameDay = (first, second) =>
@@ -47,6 +53,22 @@ const getGameResultForUser = (username, game) => {
   else if (black.username.toLowerCase() === username) {
     return black;
   };
+};
+
+const getResultofGameForPlayer = (game, username) => {
+  const { white, black } = game;
+  let streak;
+
+  if (white.result === black.result) {
+    streak = GAME_RESULTS.DRAW;
+  }
+  else if (white.username.toLowerCase() === username && white.result === "win") {
+    streak = GAME_RESULTS.WIN;
+  }
+  else if (black.username.toLowerCase() === username && white.result === "win") {
+    streak = GAME_RESULTS.LOSS;
+  };
+  return streak;
 };
 
 export const getGamesForToday = (games) => {
@@ -151,6 +173,33 @@ export const getMostRecentResult = (currentPlayer) => {
   };
   return getColorOfPlayer(username, lastGame) == CHESS_COLORS.WHITE ? lastGame.white.result : lastGame.black.result;
 };
+
+export const getWinningStreak = (currentPlayer) => {
+  const { username: currentUsername, games } = currentPlayer;
+  if (!games || games.length === 0) return {
+    streak: undefined,
+    count: 0,
+  };
+
+  const username = currentUsername.toLowerCase();
+  const lastGame = games[games.length - 1];
+
+  const streak = getResultofGameForPlayer(lastGame, username);
+  let count = 0;
+
+  for (const game of getGamesForToday(games).reverse()) {
+    if (streak === getResultofGameForPlayer(game, username)) {
+      count++;
+    } else {
+      break;
+    };
+  };
+  return {
+    streak,
+    count
+  };
+};
+
 
 export const eloGainedToday = (currentPlayer) => {
   const { username: currentUsername, games } = currentPlayer;

@@ -6,9 +6,9 @@ import VersusScreen from "screens/VersusScreen";
 const players = [
   "anastlemat",
   "danieldiurczak",
-  "bdcosta2",
-  "unburn",
   "werdze",
+  "unburn",
+  "bdcosta2",
   "hebber",
 ];
 

@@ -13,6 +13,8 @@ import {
   getMostRecentResult,
   getTimeInChessGamesToday,
   eloGainedToday,
+  getWinningStreak,
+  GAME_RESULTS,
 } from "utils/chessUtils";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -127,6 +129,41 @@ const dataValues = {
         <StyledTableCell align="center">
           <div style={{ color: "black", display: "inline" }}>
             {value}
+          </div>
+        </StyledTableCell>
+      );
+    },
+  },
+  "Current Streak": {
+    value: (player) => getWinningStreak(player),
+    renderCell: (player, players) => {
+      const { streak, count } = getWinningStreak(player);
+      let color = "black";
+      let result = "";
+      if (!streak) {
+        result = "N/A";
+      } else {
+        switch (streak) {
+          case GAME_RESULTS.WIN:
+            color = "green";
+            result = `Won ${count}`;
+            break;
+          case GAME_RESULTS.LOSS:
+            color = "red";
+            result = `Lost ${count}`;
+            break;
+
+          default:
+            color = "black";
+            result = `Drew ${count}`;
+            break;
+        };
+      };
+
+      return (
+        <StyledTableCell align="center">
+          <div style={{ color: color, display: "inline" }}>
+            {result}
           </div>
         </StyledTableCell>
       );

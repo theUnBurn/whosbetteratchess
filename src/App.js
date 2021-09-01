@@ -9,7 +9,7 @@ const players = [
   "werdze",
   "unburn",
   "bdcosta2",
-  "hebber",
+  "liltubs",
 ];
 
 function App() {
